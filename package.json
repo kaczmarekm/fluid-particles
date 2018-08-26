@@ -1,5 +1,6 @@
 {
   "name": "fluid",
+  "homepage": "http://users.pja.edu.pl/~s17335/particles/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
