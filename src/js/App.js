@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
+
 import '../styles/style.css';
 
 class App extends Component {
 
     componentDidMount() {
-
         (function(window) {
             let canvas, ctx;
             let mouse = {
@@ -35,6 +35,7 @@ class App extends Component {
             const columnNumber = canvasWidth / gridCellSize;
             const rowNumber = canvasHeight / gridCellSize;
             const particlesNumber = 5000;
+
             const velocityFactor = 0.03;
             const travelLimitFactor = 0.5;
             const speedUpFactor = 0.05;
@@ -89,15 +90,15 @@ class App extends Component {
                 }
 
                 window.addEventListener("mousedown", mouseBtnDownEventHandler);
-                canvas.addEventListener("mousemove", mouseMovedEventHandler);
-                window.addEventListener("mouseup", mouseBtnUpEventHandler);
                 window.addEventListener("touchstart", mouseBtnDownEventHandler);
-                canvas.addEventListener("touchmove", touchMovedEventHandler);
+                window.addEventListener("mouseup", mouseBtnUpEventHandler);
                 window.addEventListener("touchend", touchUpEventHandler);
+                canvas.addEventListener("mousemove", mouseMovedEventHandler);
+                canvas.addEventListener("touchmove", touchMovedEventHandler);
                 window.onload = draw;
             }
 
-            function update_particle() {
+            function updateParticle() {
                 for (let i = 0; i < particlesArray.length; i++) {
                     let particle = particlesArray[i];
                     if (particle.x >= 0 && particle.x < canvasWidth && particle.y >= 0 && particle.y < canvasHeight) {
@@ -153,8 +154,8 @@ class App extends Component {
             }
 
             function draw() {
-                let mouse_xv = mouse.x - mouse.px;
-                let mouse_yv = mouse.y - mouse.py;
+                let mouse_xv = mouse.mouseXPosition - mouse.mousePreviousXPosition;
+                let mouse_yv = mouse.mouseYPosition - mouse.mousePreviousYPosition;
 
                 for (let i = 0; i < gridCellArray.length; i++) {
                     let rowsData = gridCellArray[i];
@@ -169,7 +170,7 @@ class App extends Component {
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.strokeStyle = "#66cdaa";
-                update_particle();
+                updateParticle();
 
                 for (let i = 0; i < gridCellArray.length; i++) {
                     let rowsData = gridCellArray[i];
@@ -179,15 +180,15 @@ class App extends Component {
                     }
                 }
 
-                mouse.px = mouse.x;
-                mouse.py = mouse.y;
+                mouse.mousePreviousXPosition = mouse.mouseXPosition;
+                mouse.mousePreviousYPosition = mouse.mouseYPosition;
 
                 requestAnimationFrame(draw);
             }
 
             function changeCellVelocity(cellData, mouseVelocityX, mouseVelocityY, penSize) {
-                let dx = cellData.x - mouse.x;
-                let dy = cellData.y - mouse.y;
+                let dx = cellData.x - mouse.mouseXPosition;
+                let dy = cellData.y - mouse.mouseYPosition;
 
                 let distanceTravelled = Math.sqrt(dy * dy + dx * dx);
 
@@ -279,21 +280,23 @@ class App extends Component {
             }
 
             function mouseMovedEventHandler(e) {
-                mouse.px = mouse.x;
-                mouse.py = mouse.y;
+                mouse.mousePreviousXPosition = mouse.mouseXPosition;
+                mouse.mousePreviousYPosition = mouse.mouseYPosition;
 
-                mouse.x = e.offsetX || e.layerX;
-                mouse.y = e.offsetY || e.layerY;
+                mouse.mouseXPosition = e.offsetX || e.layerX;
+                mouse.mouseYPosition = e.offsetY || e.layerY;
             }
 
             function touchMovedEventHandler(e) {
-                mouse.px = mouse.x;
-                mouse.py = mouse.y;
+                e.preventDefault();
+
+                mouse.mousePreviousXPosition = mouse.mouseXPosition;
+                mouse.mousePreviousYPosition = mouse.mouseYPosition;
 
                 let rect = canvas.getBoundingClientRect();
 
-                mouse.x = e.touches[0].pageX - rect.left;
-                mouse.y = e.touches[0].pageY - rect.top;
+                mouse.mouseXPosition = e.touches[0].pageX - rect.left;
+                mouse.mouseYPosition = e.touches[0].pageY - rect.top;
             }
 
             window.Fluid = {
@@ -309,7 +312,9 @@ class App extends Component {
 
     render() {
         return (
-            <canvas id='canvas'/>
+            <div>
+                <canvas id='canvas'/>
+            </div>
         );
     }
 }
