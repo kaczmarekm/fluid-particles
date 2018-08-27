@@ -2,9 +2,8 @@
 
 #### Fluid-like behaving particles animation.
 
-[project demo website](http://users.pja.edu.pl/~s17335/fluid-particles/)
-
-[real website example](http://users.pja.edu.pl/~s17335/portfolio/)
+* [project demo website](http://users.pja.edu.pl/~s17335/fluid-particles/)
+* [real website example](http://users.pja.edu.pl/~s17335/portfolio/)
 
 ### Technology stack:
 * JavaScript / ES6 / React.js
