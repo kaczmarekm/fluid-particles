@@ -1,10 +1,10 @@
 # Fluid particles
 
-#### The goal is to implement fluid-like behaving particle animation with Redux support.
+#### Fluid-like behaving particles animation.
 
-[project demo website](http://users.pja.edu.pl/~s17335/particles/)
+[project demo website](http://users.pja.edu.pl/~s17335/fluid-particles/)
 
 ### Technology stack:
-* JavaScript + React.js
+* JavaScript / ES6 / React.js
 * HTML 5
 * CSS 3
